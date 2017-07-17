@@ -1,8 +1,12 @@
+################################################################
+### TODO: SCRUB THESE SETTINGS BEFORE MAKING THE REPO PUBLIC! ##
+################################################################
+
 import os
 
 
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
-PACKAGE_ROOT = os.path.abspath(os.path.dirname(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir))
+PACKAGE_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
 BASE_DIR = PACKAGE_ROOT
 
 DEBUG = True
@@ -133,9 +137,12 @@ INSTALLED_APPS = [
     "account",
     "pinax.eventlog",
     "pinax.webanalytics",
+    "channels",
+    "channels.delay",
 
     # project
     "fotaportal",
+    "livedevice",
 ]
 
 # A sample logging configuration. The only tangible logging
@@ -156,13 +163,21 @@ LOGGING = {
             "level": "ERROR",
             "filters": ["require_debug_false"],
             "class": "django.utils.log.AdminEmailHandler"
-        }
+        },
+        "console": {
+            "class": "logging.StreamHandler",
+        },
     },
     "loggers": {
         "django.request": {
             "handlers": ["mail_admins"],
             "level": "ERROR",
             "propagate": True,
+        },
+        # debug livedevice
+        "livedevice": {
+            "handlers": ["console"],
+            "level": "DEBUG",
         },
     }
 }
@@ -183,4 +198,23 @@ ACCOUNT_USE_AUTH_AUTHENTICATE = True
 
 AUTHENTICATION_BACKENDS = [
     "account.auth_backends.UsernameAuthenticationBackend",
+]
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgi_ipc.IPCChannelLayer",
+        "ROUTING": "fotaportal.routing.channel_routing",
+    },
+}
+
+# Google Maps API Key
+GOOGLE_MAPS_API_KEY='AIzaSyDYHBI49FaD1ckLcq__5AP0XupMq0mv_q0'
+
+MBED_CLOUD_PRESUBSCRIPTIONS = [
+        {"resource-path": ["/3301/0/*"]},
+        {"resource-path": ["/3303/0/*"]},
+        {"resource-path": ["/3304/0/*"]},
+        {"resource-path": ["/3336/*"]},
+        {"resource-path": ["/26241/0/*"]},
+        {"resource-path": ["/26242/0/*"]}
 ]

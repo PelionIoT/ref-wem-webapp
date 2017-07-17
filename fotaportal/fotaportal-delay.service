@@ -1,0 +1,15 @@
+[Unit]
+Description=FOTA Portal Delay
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/home/fotaportal/fotaportal
+Environment=DJANGO_SETTINGS_MODULE=fotaportal.settings.production
+ExecStart=/home/fotaportal/.virtualenvs/fotaportal/bin/python manage.py rundelay
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+[Unit]
+Description=Daphne Server
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/home/fotaportal/fotaportal
+ExecStart=/home/fotaportal/.virtualenvs/fotaportal/bin/daphne fotaportal.asgi_production:channel_layer
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
