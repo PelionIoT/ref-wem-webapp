@@ -138,7 +138,7 @@ We have tested this on the Debian 9 operating system on an Amazon EC2 machine.
    -rw-rw-r-- 1 wem wem         14K Oct 23 18:01 simulate_fake_device.py
    drwxrwxr-x 4 wem wem        4.0K Oct 23 18:01 static
    -rw-rw-r-- 1 wem wem          70 Oct 23 18:01 tox.ini
-...
+
    /home/wem/refdep-wem-webapp/wem$ ls -lah
    drwxrwxr-x 2 wem wem        4.0K Oct 23 18:01 fixtures
    drwxrwxr-x 4 wem wem        4.0K Oct 23 18:01 gulp
@@ -265,3 +265,83 @@ We have tested this on the Debian 9 operating system on an Amazon EC2 machine.
    sudo systemctl restart daphne.service
    sudo systemctl restart wem-worker.service
    ```
+
+### Adding additional sensors
+
+To add your own sensors to the web application, you need the following 3 items:
+* Resource name
+* Resource URI (Find in the OMA LwM2M registry)
+* Resource sensor range
+
+There are 2 files that need to be changed to add the sensor to the portal.
+
+The first file is `fotaport\settings\defaults.py`. Find the data struct at the very bottom of the file that looks like the following:
+
+```
+MBED_CLOUD_PRESUBSCRIPTIONS = [
+        {"resource-path": ["/3301/0/*"]},
+        {"resource-path": ["/3303/0/*"]},
+        {"resource-path": ["/3304/0/*"]},
+        {"resource-path": ["/3336/*"]},
+        {"resource-path": ["/26241/0/*"]},
+        {"resource-path": ["/26242/0/*"]}
+]
+```
+
+Add another item into that `MBED_CLOUD_PRESUBSCRIPTIONS` struct that follows the following template:
+
+`{"resource-path": ["/XXXX/0/*"]}`
+
+Where XXXX is the Object ID of your resource.
+
+The second file that needs to be modified is `livedevice/templates/livedevice/livedevice.html`. Find the data struct around line 39 that looks like the following:
+
+```
+    var chartsConfig = {
+      '/3303/0/5700': {
+        title: 'Temperature',
+        element: null,
+        chart: null,
+        colors: palettes[palette_choice],
+        min: 20,
+        max: 30,
+        label: "degrees C"
+      },
+      '/3301/0/5700': {
+        title: 'Light',
+        element: null,
+        chart: null,
+        colors: palettes[palette_choice],
+        min: 0,
+        max: 10000,
+        label: "intensity (lux)"
+      },
+      '/3304/0/5700': {
+        title: 'Humidity',
+        element: null,
+        chart: null,
+        colors: palettes[palette_choice],
+        min: 0,
+        max: 100,
+        label: "relative humidity(RH)"
+      }
+    }
+```
+
+Add another item into that `chartsConfig` struct that follows the following template:
+
+```
+'/XXXX/0/YYYY': {
+   title: 'Sensor Title',
+   element: null,
+   chart: null,
+   colors: palettes[palette_choice],
+   min: 0,
+   max: 10000,
+   label: "Sensor units (unit)"
+}
+```
+
+Where XXXX is the Object ID of your resource, and YYYY is the Resource ID of your resource.
+
+That is it! Your web application should now should additional sensor information.
