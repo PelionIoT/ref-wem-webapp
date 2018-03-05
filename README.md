@@ -275,7 +275,7 @@ To add your own sensors to the web application, you need the following 3 items:
 
 There are 2 files that need to be changed to add the sensor to the portal.
 
-The first file is `fotaport\settings\defaults.py`. Find the data struct at the very bottom of the file that looks like the following:
+The first file is `wem\wem\settings\defaults.py`. Find the data struct at the very bottom of the file that looks like the following:
 
 ```
 MBED_CLOUD_PRESUBSCRIPTIONS = [
