@@ -1,8 +1,8 @@
+#!/usr/bin/env python
 '''Simulate a fake device.
 
 This module can be used to simulate a fake device for testing.
 '''
-#!/usr/bin/env python
 import logging
 import sys
 import random
@@ -24,16 +24,20 @@ logger.setLevel(logging.WARN)
 WEBHOOK_URL = "http://localhost:8000/live-device/mbed-cloud-webhook/"
 
 # @NOTE: How this list came to be
-# 1) Go to https://www.randomlists.com/random-world-cities to get a random list of cities
+# 1) Go to https://www.randomlists.com/random-world-cities to get a random
+#    list of cities
 # 2) Go to https://wigle.net/ and search for the cities you've selected.
-#    a) Filter on 'WiFi Net' and ensure the data range is within the most recent year (e.g. 2017-2018)
-#    b) Zoom in to a spot with a lot of APs (preferably near something like a hotel or Starbucks)
-#    c) Select atleast 3 MAC Address that are close to each other (Google Geolocation requires at least 3)
+#    a) Filter on 'WiFi Net' and ensure the data range is within the most
+#       recent year (e.g. 2017-2018)
+#    b) Zoom in to a spot with a lot of APs (preferably near something like a
+#       hotel or Starbucks)
+#    c) Select atleast 3 MAC Address that are close to each other (Google
+#       Geolocation requires at least 3)
 #    d) Add them to the list below
 # 3) Run the script and verify that address shows up on the demo wem page.
 # 4) Plug the coordinates into Google Maps and verify it's in the correct city
 #    e.g. https://www.google.com/maps/place/<lat>,<long>
-#
+
 WIFI_APLIST = [
     {
         'city': 'Beijing, China',
