@@ -326,7 +326,7 @@ class Board(object):
             HumiditySensor(board=self),
             AppLabelSensor(board=self, value=label),
             NetworkResourceSensor(board=self,
-                                  value=WIFI_APLIST[random.randint(0, len(WIFI_APLIST) - 1)]['aplist'])
+                                  value=random.choice(WIFI_APLIST)['aplist'])
         ]
         if geo is None:
             self.sensors.append(
