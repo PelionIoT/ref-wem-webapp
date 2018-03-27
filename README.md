@@ -1,6 +1,6 @@
 ## Workplace Environmental Monitor Webapp
 
-This web application displays sensor data from one or more devices. The application makes live updates to charts showing temperature, humidity and light levels from the device. Those devices run Mbed Cloud Client and upload sensor data periodically. ref-wem is written in Python using Django and Pinax.
+This web application collects temperature, humidity, and light level sensor data from one or more [Workplace Environment Monitor](https://github.com/ARMmbed/ref-wem) devices and displays the data in live charts.  The application is written in Python using Django and Pinax.
 
 ### Getting started
 
@@ -107,7 +107,7 @@ If no geolocation information is known about a device, the map does not display 
 
 We have tested this on the Debian 9 operating system on an Amazon EC2 machine.
 
-1. Install Apache, `mod-wsgi`, `redis` and Python libraries:
+1. Install required software packages:
 
    ```
    sudo apt-get update
@@ -123,7 +123,7 @@ We have tested this on the Debian 9 operating system on an Amazon EC2 machine.
    sudo pip install virtualenvwrapper
    ```
 
-1. For the Apache webserver, enable `mod-wsgi`, `proxy` and `proxy_wtunnel`:
+1. For the Apache webserver, enable `wsgi`, `proxy` and `proxy_wtunnel`:
 
    ```
    sudo a2enmod wsgi
@@ -138,24 +138,24 @@ We have tested this on the Debian 9 operating system on an Amazon EC2 machine.
    sudo passwd wem
    ```
 
-1. Become the wem user, and clone the ref-wem project under the wem `homedir`:
+1. Become the wem user and clone the ref-wem-webapp project under the wem home directory:
 
    ```
    sudo su wem
    cd ~/
-   git clone https://github.com/ARMmbed/ref-wem.git
+   git clone https://github.com/ARMmbed/ref-wem-webapp.git
    ```
 
-1. That directory and `sqlite3` .db file should be writable by the `www-data` user:
+1. The ref-wem-webapp directory should be writable by the `www-data` user:
 
    ```
-   sudo chgrp www-data ref-wem/
+   sudo chgrp www-data ref-wem-webapp/
    ```
 
    You've successfully set permissions when you see:
 
    ```
-   /home/wem/ref-wem$ ls -lah
+   /home/wem/ref-wem-webapp$ ls -lah
    total 84K
    drwxrwxr-x 8 wem www-data   4.0K Oct 23 18:01 .
    drwxr-xr-x 4 wem wem        4.0K Oct 23 18:01 ..
@@ -169,17 +169,10 @@ We have tested this on the Debian 9 operating system on an Amazon EC2 machine.
    -rw-rw-r-- 1 wem wem         14K Oct 23 18:01 simulate_fake_device.py
    drwxrwxr-x 4 wem wem        4.0K Oct 23 18:01 static
    -rw-rw-r-- 1 wem wem          70 Oct 23 18:01 tox.ini
-
-   /home/wem/ref-wem/wem$ ls -lah
-   drwxrwxr-x 2 wem wem        4.0K Oct 23 18:01 fixtures
-   drwxrwxr-x 4 wem wem        4.0K Oct 23 18:01 gulp
-   -rw-rw-r-- 1 wem wem        3.0K Oct 23 18:01 gulpfile.js
-   drwxrwxr-x 5 wem wem        4.0K Oct 23 18:01 livedevice
-   drwxrwxr-x 4 wem wem        4.0K Oct 23 18:01 static
-   -rw-rw-r-- 1 wem wem          70 Oct 23 18:01 tox.ini
+   ...
    ```
 
-1. Copy and paste these lines to the wem user's `.profile`:
+1. Copy and paste these lines to the wem user's `~/.profile`:
 
    ```
    export WORKON_HOME=$HOME/.virtualenvs
@@ -198,7 +191,7 @@ We have tested this on the Debian 9 operating system on an Amazon EC2 machine.
 1. Install the Python `requirements.txt` within that virtualenv:
 
    ```
-   (wem) $ cd ref-wem/
+   (wem) $ cd ref-wem-webapp/
    (wem) $ pip install -r requirements.txt
    (wem) $ ./manage.py migrate
    (wem) $ ./manage.py loaddata sites
@@ -211,7 +204,7 @@ We have tested this on the Debian 9 operating system on an Amazon EC2 machine.
    ./manage.py createsuperuser
    ```
 
-1. Become a Linux super user again, so exit wem user:
+1. Exit the wem user to switch back to the Linux root user:
 
    ```
    exit
@@ -220,7 +213,7 @@ We have tested this on the Debian 9 operating system on an Amazon EC2 machine.
 1. Create a symlink for the Apache configuration:
 
    ```
-   sudo ln -s /home/wem/ref-wem/wem/wem/apache2_production.conf /etc/apache2/conf-available/wem.conf
+   sudo ln -s /home/wem/ref-wem-webapp/wem/apache2_production.conf /etc/apache2/conf-available/wem.conf
    ```
 
 1. Write the following to the Apache2 site file `/etc/apache2/sites-available/wem.conf`:
@@ -239,7 +232,7 @@ We have tested this on the Debian 9 operating system on an Amazon EC2 machine.
     </VirtualHost>
    ```
 
-1. Disable the Apache default site, and enable this web application site:
+1. Disable the Apache default site and enable this web application site:
 
    ```
    sudo a2dissite 000-default.conf
@@ -249,7 +242,7 @@ We have tested this on the Debian 9 operating system on an Amazon EC2 machine.
 1. Copy the system service files to `/lib/systemd/system/`:
 
    ```
-   sudo cp /home/wem/ref-wem/wem/wem/*.service /lib/systemd/system/
+   sudo cp /home/wem/ref-wem-webapp/wem/*.service /lib/systemd/system/
    ```
 
 1. Enable and start those services:
@@ -284,7 +277,7 @@ We have tested this on the Debian 9 operating system on an Amazon EC2 machine.
    $ sudo journalctl -f -u wem-worker.service
    -- Logs begin at Fri 2017-09-29 17:45:55 UTC. --
    Sep 29 22:26:49 ip-172-31-40-154 python[17436]: cache.get(u'015ec98f09b60000000000010010012e,/3336/0/5750'): 'user'
-   Sep 29 22:26:49 ip-172-31-40-154 python[17436]: cache.get(u'015ec9dbc5f5000000000001001001a1,/26241/0/1'): 'K64F-1a1'
+   Sep 29 22:26:49 ip-172-31-40-154 python[17436]: cache.get(u'015ec9dbc5f5000000000001001001a1,/26241/0/1'): 'device-1a1'
    Sep 29 22:26:49 ip-172-31-40-154 python[17436]: cache.get(u'015ec9dbc5f5000000000001001001a1,/3336/0/5750'): 'user'
    Sep 29 22:26:49 ip-172-31-40-154 python[17436]: cache.get(u'015ec9dbc5f5000000000001001001a1,/3304/0/5700'): 38.0
    ```
@@ -297,7 +290,7 @@ We have tested this on the Debian 9 operating system on an Amazon EC2 machine.
    sudo systemctl restart wem-worker.service
    ```
 
-### Adding additional sensors
+### Adding sensors
 
 To add your own sensors to the web application, you need the following 3 items:
 * Resource name
@@ -306,7 +299,7 @@ To add your own sensors to the web application, you need the following 3 items:
 
 There are 2 files that need to be changed to add the sensor to the web application.
 
-The first file is `wem\wem\settings\defaults.py`. Find the data struct at the very bottom of the file that looks like the following:
+The first file is `wem/settings/defaults.py`. Find the data struct at the very bottom of the file that looks like the following:
 
 ```
 MBED_CLOUD_PRESUBSCRIPTIONS = [
