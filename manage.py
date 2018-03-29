@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 mbed tools
 Copyright (c) 2018 ARM Limited
@@ -13,7 +14,6 @@ limitations under the License.
 """
 
 
-#!/usr/bin/env python
 
 import os
 import sys
