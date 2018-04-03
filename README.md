@@ -76,10 +76,10 @@ To test with a real device:
    * API key: [your Mbed Cloud API key].
    * Display name: [your choice of name].
    * Click `Save and continue editing`.
-   * Click either `Set webhook callback` or `Start long poll`.
-1. `Connected details` says `connecting`.
+   * Click `Set webhook callback`.
+1. `Webhook callback set` says ` {u'url': u'https://[mysubdomain].serveo.net/live-device/mbed-cloud-webhook/', u'headers': {u'Authorization': u'Bearer [mywebhookauthapikey]'}}`.  If you see a 400 error, make sure your mbed cloud API key is correct.
 1. Refresh the page.
-1. `Connected details` says `success`. You can now see callbacks at https://[mysubdomain].serveo.net/live-device/mbed-cloud-webhook/.
+1. You can now see callbacks at https://[mysubdomain].serveo.net/live-device/mbed-cloud-webhook/.
 
 ### Geolocation
 
