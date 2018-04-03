@@ -224,6 +224,22 @@ We have tested this on the Debian 9 operating system on an Amazon EC2 machine.
    (wem) $ echo "export GOOGLE_MAPS_API_KEY='$GOOGLE_MAPS_API_KEY'" >> $VIRTUAL_ENV/bin/postactivate
    ```
 
+1. Copy your keys so the webserver can use them:
+   a. Get your secret key:
+    ```
+    (wem) $ echo "$SECRET_KEY"
+    2hy12(t%#!g*sw7@#z@b7lv=v=nsv()oo=fwy)@sn7l34p%s2b
+    ```
+    
+    b. Then edit /home/wem/ref-wem-webapp/wem/wsgi_production.py and add the following lines:
+    ```
+    os.environ["DJANGO_SETTINGS_MODULE"] = "wem.settings.production"
+    os.environ["SECRET_KEY"] = "[the secret key from above]"
+    os.environ["GOOGLE_MAPS_API_KEY"] = "[the google api key from the link in the previous step]"
+    ```
+
+
+
 1. Initialize the database:
    ```
    (wem) $ ./manage.py migrate
