@@ -149,7 +149,9 @@ We have tested this on the Debian 9 operating system on an Amazon EC2 machine.
 1. The ref-wem-webapp directory should be writable by the `www-data` user:
 
    ```
+   exit
    sudo chgrp www-data ref-wem-webapp/
+   sudo su wem
    ```
 
    You've successfully set permissions when you see:
@@ -179,6 +181,19 @@ We have tested this on the Debian 9 operating system on an Amazon EC2 machine.
    export PROJECT_HOME=$HOME/Devel
    source /usr/local/bin/virtualenvwrapper.sh
    ```
+   
+    NOTE:
+   For different Linux distro's virtualenvwrapper.sh might install to a different path. If so you can find its real path by running:
+   ```
+   /home/wem/ref-wem-webapp$ find / -name virtualenvwrapper.sh
+   find: /usr/pybin/virtualenvwrapper.sh
+   ```` 
+   You can then change your `~/.profile` source path to:
+   ```
+   source /usr/pybin/virtualenvwrapper.sh
+   ```
+
+
 
 1. Create a virtualenv as the wem user.
 
@@ -193,6 +208,24 @@ We have tested this on the Debian 9 operating system on an Amazon EC2 machine.
    ```
    (wem) $ cd ref-wem-webapp/
    (wem) $ pip install -r requirements.txt
+   ```
+
+
+1. Initialize your secret key:
+    ```
+   (wem) $ export SECRET_KEY="$(python -c 'from django.core.management.utils import get_random_secret_key; print get_random_secret_key()')"
+   (wem) $ echo "export SECRET_KEY='$SECRET_KEY'" >> $VIRTUAL_ENV/bin/postactivate
+   ```
+
+
+1. [Get a Google Maps API key](https://developers.google.com/maps/documentation/javascript/get-api-key) and add it to the environment:
+   ```
+   (wem) $ export GOOGLE_MAPS_API_KEY='[the key from the link above]'
+   (wem) $ echo "export GOOGLE_MAPS_API_KEY='$GOOGLE_MAPS_API_KEY'" >> $VIRTUAL_ENV/bin/postactivate
+   ```
+
+1. Initialize the database:
+   ```
    (wem) $ ./manage.py migrate
    (wem) $ ./manage.py loaddata sites
    (wem) $ ./manage.py collectstatic --noinput
