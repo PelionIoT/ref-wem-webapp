@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 User=www-data
 Group=www-data
-WorkingDirectory=/home/wem/wem
+WorkingDirectory=/home/wem/ref-wem-webapp
 Environment=DJANGO_SETTINGS_MODULE=wem.settings.production
 ExecStart=/home/wem/.virtualenvs/wem/bin/python manage.py rundelay
 Restart=always
