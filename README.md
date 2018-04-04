@@ -303,6 +303,34 @@ We have tested this on the [Debian 9 operating system on an Amazon EC2 instance]
    sudo systemctl restart apache2.service
    ```
 
+1. Add SSL
+
+   You'll need HTTPS to be able for MBED Cloud to callback to your webhook
+   because MBED Cloud will only callback to an https URL(not http).
+   So you'll need to create a DNS entry in your DNS server and point
+   it to your EC2 instance.  Then use letsencrypt to generate your SSL
+   keys/certs and install them:
+
+   * Add `ServerName [yourdomainname]` to `/etc/apache2/sites-enabled/wem.conf`
+   where [yourdomainname] is the DNS entry pointing to your EC2 instance.
+   * Also comment out `Include conf-available/wem.conf`
+   * Restart apache: `systemctl restart apache2.service`
+
+   ```
+   sudo apt-get install python-certbot-apache
+   sudo certbot --authenticator webroot --installer apache
+   ```
+
+   Use `/var/www/html` for the webroot when prompted.
+
+   Once certbot is done, uncomment out `Include conf-available/wem.conf` in
+   `/etc/apache2/sites-enabled/wem-le-ssl.conf` and restart apache.
+   (Leave the line commented out in `/etc/apache2/sites-enabled/wem.conf`)
+
+   Change your site domain in the Django admin from `localhost:8000`
+   to your hostname. Also set the scheme to HTTPS.
+
+
 #### Debugging server
 
 1. To see the logs for Apache2 (Django Python logs):
@@ -338,34 +366,6 @@ We have tested this on the [Debian 9 operating system on an Amazon EC2 instance]
    sudo systemctl restart daphne.service
    sudo systemctl restart wem-worker.service
    ```
-
-1. Add SSL
-
-   You'll need HTTPS to be able for MBED Cloud to callback to your webhook
-   because MBED Cloud will only callback to an https URL(not http).
-   So you'll need to create a DNS entry in your DNS server and point
-   it to your EC2 instance.  Then use letsencrypt to generate your SSL
-   keys/certs and install them:
-
-   * Add `ServerName [yourdomainname]` to `/etc/apache2/sites-enabled/wem.conf`
-   where [yourdomainname] is the DNS entry pointing to your EC2 instance.
-   * Also comment out `Include conf-available/wem.conf`
-   * Restart apache: `systemctl restart apache2.service`
-
-   ```
-   sudo apt-get install python-certbot-apache
-   sudo certbot --authenticator webroot --installer apache
-   ```
-
-   Use `/var/www/html` for the webroot when prompted.
-
-   Once certbot is done, uncomment out `Include conf-available/wem.conf` in
-   `/etc/apache2/sites-enabled/wem-le-ssl.conf` and restart apache.
-   (Leave the line commented out in `/etc/apache2/sites-enabled/wem.conf`)
-
-   Change your site domain in the Django admin from `localhost:8000`
-   to your hostname. Also set the scheme to HTTPS.
-
 
 ### Adding sensors
 
