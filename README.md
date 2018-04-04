@@ -161,7 +161,7 @@ We have tested this on the [Debian 9 operating system on an Amazon EC2 instance]
    You've successfully set permissions when you see:
 
    ```
-   /home/wem/ref-wem-webapp$ ls -lah
+   /home/wem/ref-wem-webapp$ ls -lah ~/ref-wem-webapp
    total 84K
    drwxrwsr-x 8 wem www-data   4.0K Oct 23 18:01 .
    drwxr-xr-x 4 wem wem        4.0K Oct 23 18:01 ..
