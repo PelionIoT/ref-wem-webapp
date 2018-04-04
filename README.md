@@ -135,6 +135,7 @@ We have tested this on the [Debian 9 operating system on an Amazon EC2 instance]
 
    ```
    sudo adduser --disabled-password --gecos "" wem
+   sudo adduser wem www-data
    ```
 
 1. Become the wem user and clone the ref-wem-webapp project under the wem home directory:
@@ -150,6 +151,7 @@ We have tested this on the [Debian 9 operating system on an Amazon EC2 instance]
    ```
    exit
    sudo chgrp www-data ~wem/ref-wem-webapp/
+   sudo chmod g+ws ~wem/ref-wem-webapp/
    sudo su wem
    ```
 
@@ -158,7 +160,7 @@ We have tested this on the [Debian 9 operating system on an Amazon EC2 instance]
    ```
    /home/wem/ref-wem-webapp$ ls -lah
    total 84K
-   drwxrwxr-x 8 wem www-data   4.0K Oct 23 18:01 .
+   drwxrwsr-x 8 wem www-data   4.0K Oct 23 18:01 .
    drwxr-xr-x 4 wem wem        4.0K Oct 23 18:01 ..
    drwxrwxr-x 4 wem wem        4.0K Oct 23 18:01 wem
    drwxrwxr-x 8 wem wem        4.0K Oct 23 18:01 .git
@@ -229,6 +231,7 @@ We have tested this on the [Debian 9 operating system on an Amazon EC2 instance]
 1. Initialize the database:
    ```
    (wem) $ ./manage.py migrate
+   (wem) $ chmod g+w dev.db
    (wem) $ ./manage.py loaddata sites
    (wem) $ ./manage.py collectstatic --noinput
    ```
