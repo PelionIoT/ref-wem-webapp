@@ -149,7 +149,7 @@ We have tested this on the [Debian 9 operating system on an Amazon EC2 instance]
 
    ```
    exit
-   sudo chgrp www-data ref-wem-webapp/
+   sudo chgrp www-data ~wem/ref-wem-webapp/
    sudo su wem
    ```
 
