@@ -214,6 +214,8 @@ We have tested this on the [Debian 9 operating system on an Amazon EC2 instance]
     ```
    (wem) $ export SECRET_KEY="$(python -c 'from django.core.management.utils import get_random_secret_key; print get_random_secret_key()')"
    (wem) $ echo "export SECRET_KEY='$SECRET_KEY'" >> $VIRTUAL_ENV/bin/postactivate
+   (wem) $ echo "import os" >> $(virtualenvwrapper_get_site_packages_dir)/wem_env.py
+   (wem) $ echo "os.environ['SECRET_KEY']='$SECRET_KEY'" >> $(virtualenvwrapper_get_site_packages_dir)/wem_env.py
    ```
 
 
@@ -221,22 +223,8 @@ We have tested this on the [Debian 9 operating system on an Amazon EC2 instance]
    ```
    (wem) $ export GOOGLE_MAPS_API_KEY='[the key from the link above]'
    (wem) $ echo "export GOOGLE_MAPS_API_KEY='$GOOGLE_MAPS_API_KEY'" >> $VIRTUAL_ENV/bin/postactivate
+   (wem) $ echo "os.environ['GOOGLE_MAPS_API_KEY']='$GOOGLE_MAPS_API_KEY'" >> $(virtualenvwrapper_get_site_packages_dir)/wem_env.py
    ```
-
-1. Copy your keys so the webserver can use them:
-   a. Get your secret key:
-    ```
-    (wem) $ echo "$SECRET_KEY"
-    2hy12(t%#!g*sw7@#z@b7lv=v=nsv()oo=fwy)@sn7l34p%s2b
-    ```
-    
-    b. Then edit /home/wem/ref-wem-webapp/wem/wsgi_production.py and add the following lines:
-    ```
-    os.environ["SECRET_KEY"] = "[the secret key from above]"
-    os.environ["GOOGLE_MAPS_API_KEY"] = "[the google api key from the link in the previous step]"
-    ```
-
-
 
 1. Initialize the database:
    ```

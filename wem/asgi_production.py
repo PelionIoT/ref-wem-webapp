@@ -15,6 +15,7 @@ limitations under the License.
 
 import os
 from channels.asgi import get_channel_layer
+from wem_env import *
 
 os.environ["DJANGO_SETTINGS_MODULE"] = "wem.settings.production"
 
