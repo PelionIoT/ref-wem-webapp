@@ -1,6 +1,9 @@
 ## Workplace Environmental Monitor Webapp
 
-This web application collects temperature, humidity, and light level sensor data from one or more [Workplace Environment Monitor](https://github.com/ARMmbed/ref-wem) devices and displays the data in live charts.  The application is written in Python using Django and Pinax.
+This web application collects temperature, humidity, and light level sensor data from one or more [Workplace Environment Monitor](https://github.com/ARMmbed/ref-wem) devices and displays the data in live charts.  The application is written in Python 2 using Django and Pinax.
+
+We are planning to upgrade to Python 3 in the future but right now this is only
+supported under Python 2.
 
 ### Getting started
 
