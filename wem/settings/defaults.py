@@ -17,6 +17,10 @@ import os
 
 from django.core.exceptions import ImproperlyConfigured
 
+try:
+    from wem_env import *
+except ImportError:
+    pass
 
 def get_env_variable(var_name):
     """Get a setting from the environment"""
