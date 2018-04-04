@@ -134,8 +134,7 @@ We have tested this on the Debian 9 operating system on an Amazon EC2 machine.
 1. Create a user and password for this web application:
 
    ```
-   sudo useradd -m wem
-   sudo passwd wem
+   sudo adduser --disabled-password --gecos "" wem
    ```
 
 1. Become the wem user and clone the ref-wem-webapp project under the wem home directory:
