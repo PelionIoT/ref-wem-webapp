@@ -105,7 +105,7 @@ If no geolocation information is known about a device, the map does not display 
 
 ### Deploying for production on a Linux server
 
-We have tested this on the [Debian 9 operating system on an Amazon EC2 instance](https://wiki.debian.org/Cloud/AmazonEC2Image/Stretch).
+We have tested this on the [Debian 9 operating system on an Amazon EC2 instance](https://wiki.debian.org/Cloud/AmazonEC2Image/Stretch).  On us-east-1, we use ami-b4fd39c9.
 
 1. Install required software packages:
 
