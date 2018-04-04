@@ -34,7 +34,7 @@ echo "export SECRET_KEY='$SECRET_KEY'" >> $VIRTUAL_ENV/bin/postactivate
 
 [Get a Google Maps API key](https://developers.google.com/maps/documentation/javascript/get-api-key) and add it to the environment:
 ```
-export GOOGLE_MAPS_API_KEY='[the key from the link above]'
+export GOOGLE_MAPS_API_KEY='the key from the link above'
 echo "export GOOGLE_MAPS_API_KEY='$GOOGLE_MAPS_API_KEY'" >> $VIRTUAL_ENV/bin/postactivate
 ```
 
@@ -72,17 +72,17 @@ To test with a real device:
 
 1. Use serveo.net to forward your dev server port onto the internet: `ssh -R 80:localhost:8000 serveo.net`.
 1. Add a superuser to Django: `./manage.py createsuperuser`.
-1. Change your site domain in the [Django admin](http://localhost:8000/admin/sites/site/1/) from `localhost:8000` to [mysubdomain].serveo.net where mysubdomain is whatever the serveo SSH command output was. Also set the scheme to HTTPS.
+1. Change your site domain in the [Django admin](http://localhost:8000/admin/sites/site/1/) from `localhost:8000` to mysubdomain.serveo.net where mysubdomain is whatever the serveo SSH command output was. Also set the scheme to HTTPS.
 1. Make sure your site is available at the serveo URL by loading it in a browser.
 1. Then add your Mbed Cloud account to the [Django admin](http://localhost:8000/admin/livedevice/mbedcloudaccount/):
-   * URL: [the default is fine].
-   * API key: [your Mbed Cloud API key].
-   * Display name: [your choice of name].
+   * URL: the default is fine.
+   * API key: your Mbed Cloud API key.
+   * Display name: your choice of name.
    * Click `Save and continue editing`.
    * Click `Set webhook callback`.
-1. `Webhook callback set` says ` {u'url': u'https://[mysubdomain].serveo.net/live-device/mbed-cloud-webhook/', u'headers': {u'Authorization': u'Bearer [mywebhookauthapikey]'}}`.  If you see a 400 error, make sure your mbed cloud API key is correct.
+1. `Webhook callback set` says ` {u'url': u'https://mysubdomain.serveo.net/live-device/mbed-cloud-webhook/', u'headers': {u'Authorization': u'Bearer mywebhookauthapikey'}}`.  If you see a 400 error, make sure your mbed cloud API key is correct.
 1. Refresh the page.
-1. You can now see callbacks at https://[mysubdomain].serveo.net/live-device/mbed-cloud-webhook/.
+1. You can now see callbacks at https://mysubdomain.serveo.net/live-device/mbed-cloud-webhook/.
 
 ### Geolocation
 
@@ -228,7 +228,7 @@ We have tested this on the [Debian 9 operating system on an Amazon EC2 instance]
 
 1. [Get a Google Maps API key](https://developers.google.com/maps/documentation/javascript/get-api-key) and add it to the environment:
    ```
-   (wem) $ export GOOGLE_MAPS_API_KEY='[the key from the link above]'
+   (wem) $ export GOOGLE_MAPS_API_KEY='the key from the link above'
    (wem) $ echo "export GOOGLE_MAPS_API_KEY='$GOOGLE_MAPS_API_KEY'" >> $VIRTUAL_ENV/bin/postactivate
    (wem) $ echo "os.environ['GOOGLE_MAPS_API_KEY']='$GOOGLE_MAPS_API_KEY'" >> $(virtualenvwrapper_get_site_packages_dir)/wem_env.py
    ```
@@ -311,8 +311,8 @@ We have tested this on the [Debian 9 operating system on an Amazon EC2 instance]
    it to your EC2 instance.  Then use letsencrypt to generate your SSL
    keys/certs and install them:
 
-   * Add `ServerName [yourdomainname]` to `/etc/apache2/sites-enabled/wem.conf`
-   where [yourdomainname] is the DNS entry pointing to your EC2 instance.
+   * Add `ServerName yourdomainname` to `/etc/apache2/sites-enabled/wem.conf`
+   where yourdomainname is the DNS entry pointing to your EC2 instance.
    * Also comment out `Include conf-available/wem.conf`
    * Restart apache: `systemctl restart apache2.service`
 
