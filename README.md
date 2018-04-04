@@ -111,7 +111,7 @@ We have tested this on the [Debian 9 operating system on an Amazon EC2 instance]
 
    ```
    sudo apt-get update
-   sudo apt-get install python python-pip python-dev libffi-dev libssl-dev
+   sudo apt-get install git python python-pip python-dev libffi-dev libssl-dev
    sudo apt-get install apache2 libapache2-mod-wsgi redis-server
    ```
 
