@@ -232,7 +232,6 @@ We have tested this on the Debian 9 operating system on an Amazon EC2 machine.
     
     b. Then edit /home/wem/ref-wem-webapp/wem/wsgi_production.py and add the following lines:
     ```
-    os.environ["DJANGO_SETTINGS_MODULE"] = "wem.settings.production"
     os.environ["SECRET_KEY"] = "[the secret key from above]"
     os.environ["GOOGLE_MAPS_API_KEY"] = "[the google api key from the link in the previous step]"
     ```
