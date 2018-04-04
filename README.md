@@ -134,6 +134,8 @@ We have tested this on the [Debian 9 operating system on an Amazon EC2 instance]
    sudo a2enmod proxy_wstunnel
    ```
 
+   Note: You don't have to restart apache2 here.
+
 1. Create a user and password for this web application:
 
    ```
@@ -293,6 +295,12 @@ We have tested this on the [Debian 9 operating system on an Amazon EC2 instance]
    sudo systemctl enable daphne.service
    sudo systemctl start wem-worker.service
    sudo systemctl start daphne.service
+   ```
+
+1. Restart apache:
+
+   ```
+   sudo systemctl restart apache2.service
    ```
 
 #### Debugging server
