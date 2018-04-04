@@ -327,7 +327,7 @@ We have tested this on the [Debian 9 operating system on an Amazon EC2 instance]
    `/etc/apache2/sites-enabled/wem-le-ssl.conf` and restart apache.
    (Leave the line commented out in `/etc/apache2/sites-enabled/wem.conf`)
 
-   Change your site domain in the Django admin from `localhost:8000`
+   Change your site domain in the Django admin from `example.com`
    to your hostname. Also set the scheme to HTTPS.
 
 
