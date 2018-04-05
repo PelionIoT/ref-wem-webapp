@@ -311,8 +311,8 @@ We have tested this on the [Debian 9 operating system on an Amazon EC2 instance]
    it to your EC2 instance.  Then use letsencrypt to generate your SSL
    keys/certs and install them:
 
-   * Add `ServerName yourdomainname` to `/etc/apache2/sites-enabled/wem.conf`
-   where yourdomainname is the DNS entry pointing to your EC2 instance.
+   * Add `ServerName example.com` to `/etc/apache2/sites-enabled/wem.conf`
+   where example.com is the DNS entry pointing to your EC2 instance.
    * Also comment out `Include conf-available/wem.conf`
    * Restart apache: `systemctl restart apache2.service`
 
@@ -327,8 +327,7 @@ We have tested this on the [Debian 9 operating system on an Amazon EC2 instance]
    `/etc/apache2/sites-enabled/wem-le-ssl.conf` and restart apache.
    (Leave the line commented out in `/etc/apache2/sites-enabled/wem.conf`)
 
-   Change your site domain in the Django admin from `example.com`
-   to your hostname. Also set the scheme to HTTPS.
+   Change your site domain in the Django admin: [https://example.com/admin/sites/site/2/change/](https://example.com/admin/sites/site/2/change/) from `example.com` to your hostname. Also set the scheme to HTTPS.  Click "Save".
 
 
 #### Debugging server
