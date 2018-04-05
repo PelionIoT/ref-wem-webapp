@@ -314,7 +314,7 @@ We have tested this on the [Debian 9 operating system on an Amazon EC2 instance]
    * Add `ServerName example.com` to `/etc/apache2/sites-enabled/wem.conf`
    where example.com is the DNS entry pointing to your EC2 instance.
    * Also comment out `Include conf-available/wem.conf`
-   * Restart apache: `systemctl restart apache2.service`
+   * Restart apache: `sudo systemctl restart apache2.service`
 
    ```
    sudo apt-get install python-certbot-apache
