@@ -108,7 +108,15 @@ If no geolocation information is known about a device, the map does not display 
 
 ### Deploying for production on a Linux server
 
-We have tested this on the [Debian 9 operating system on an Amazon EC2 instance](https://wiki.debian.org/Cloud/AmazonEC2Image/Stretch).  On us-east-1, we use ami-b4fd39c9.  Make sure you've allowed HTTP(port 80) and HTTPS(port 443)in your EC2 security group.
+Here is how we've deployed this in production.  We use Debian 9 as our distro of
+choice.
+
+1. Setup your server
+
+   We use Amazon EC2 as our hosting platform.  If you want to use our exact setup:
+
+   1. Start a [Debian 9 Amazon EC2 instance](https://wiki.debian.org/Cloud/AmazonEC2Image/Stretch).  On us-east-1, we use ami-b4fd39c9.
+   2. Allow HTTP(port 80) and HTTPS(port 443)in your EC2 security group.
 
 1. Install required software packages:
 
