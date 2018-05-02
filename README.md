@@ -1,9 +1,8 @@
 ## Workplace Environmental Monitor Webapp
 
-This web application collects temperature, humidity, and light level sensor data from one or more [Workplace Environment Monitor](https://github.com/ARMmbed/ref-wem) devices and displays the data in live charts.  The application is written in Python 2 using Django and Pinax.
+This web application collects temperature, humidity and light level sensor data from one or more [Workplace Environment Monitor](https://github.com/ARMmbed/ref-wem) devices and displays the data in live charts. The application is written in Python 2 using Django and Pinax.
 
-We are planning to upgrade to Python 3 in the future but right now this is only
-supported under Python 2.
+We are planning to upgrade to Python 3 in the future, but right now, only Python 2 supports this web application.
 
 ### Getting started
 
@@ -13,38 +12,43 @@ Install the required tools if you are using Linux:
 sudo apt-get install python python-pip python-dev libffi-dev libssl-dev virtualenvwrapper
 ```
 
-Note: you'll need to restart your terminal for virtualenvwrapper to work
+Note: You need to restart your terminal for virtualenvwrapper to work
 
 Create a virtualenv and use it:
+
 ```
 mkvirtualenv ref-wem-webapp
 ```
 
-Install the dependencies
+Install the dependencies:
+
 ```
 pip install -r requirements.txt
 ```
 
 Initialize your secret key:
+
 ```
 export SECRET_KEY="$(python -c 'from django.core.management.utils import get_random_secret_key; print get_random_secret_key()')"
 echo "export SECRET_KEY='$SECRET_KEY'" >> $VIRTUAL_ENV/bin/postactivate
 ```
 
+[Get a Google Maps API key](https://developers.google.com/maps/documentation/javascript/get-api-key), and add it to the environment:
 
-[Get a Google Maps API key](https://developers.google.com/maps/documentation/javascript/get-api-key) and add it to the environment:
 ```
 export GOOGLE_MAPS_API_KEY='the key from the link above'
 echo "export GOOGLE_MAPS_API_KEY='$GOOGLE_MAPS_API_KEY'" >> $VIRTUAL_ENV/bin/postactivate
 ```
 
 Initialize the database:
+
 ```
 ./manage.py migrate
 ./manage.py loaddata sites
 ```
 
 Run the development server:
+
 ```
 ./manage.py runserver
 ```
@@ -61,6 +65,7 @@ Then you can visit [http://localhost:8000/live-device/](http://localhost:8000/li
 ### Testing
 
 Install the test simulator dependencies:
+
 `pip install -r requirements_test.txt`
 
 To test with the simulator:
@@ -75,12 +80,12 @@ To test with a real device:
 1. Change your site domain in the [Django admin](http://localhost:8000/admin/sites/site/1/) from `localhost:8000` to mysubdomain.serveo.net where mysubdomain is whatever the serveo SSH command output was. Also set the scheme to HTTPS.
 1. Make sure your site is available at the serveo URL by loading it in a browser.
 1. Then add your Mbed Cloud account to the [Django admin](http://localhost:8000/admin/livedevice/mbedcloudaccount/):
-   * URL: the default is fine.
-   * API key: your Mbed Cloud API key.
-   * Display name: your choice of name.
-   * Click `Save and continue editing`.
-   * Click `Set webhook callback`.
-1. `Webhook callback set` says ` {u'url': u'https://mysubdomain.serveo.net/live-device/mbed-cloud-webhook/', u'headers': {u'Authorization': u'Bearer mywebhookauthapikey'}}`.  If you see a 400 error, make sure your mbed cloud API key is correct.
+    * URL: the default is fine.
+    * API key: your Mbed Cloud API key.
+    * Display name: your choice of name.
+    * Click `Save and continue editing`.
+    * Click `Set webhook callback`.
+1. `Webhook callback set` says ` {u'url': u'https://mysubdomain.serveo.net/live-device/mbed-cloud-webhook/', u'headers': {u'Authorization': u'Bearer mywebhookauthapikey'}}`. If you see a 400 error, make sure your Mbed cloud API key is correct.
 1. Refresh the page.
 1. You can now see callbacks at https://mysubdomain.serveo.net/live-device/mbed-cloud-webhook/.
 
@@ -90,9 +95,9 @@ The `Find Device` page at `/live-device/find/` displays a world map where pins a
 
 A circle representing the accuracy of the latitude/longitude measurement is displayed around each pin. The radius of the circle represents the accuracy. A smaller radius indicates higher accuracy, and a larger circle indicates lower accuracy.
 
-There are two types of geolocation services supported: `user` and `auto`. The type is communicated through M2M resource ID `/3336/x/5750`, where `x` represents the geolocation service instance. The administrator of the device manually configures the `user` type, whereas `auto` is determined by dynamic means.
+There are two types of geolocation services supported: `user` and `auto`. M2M resource ID `/3336/x/5750` communicates the type, where `x` represents the geolocation service instance. The administrator of the device manually configures the `user` type, whereas dynamic means determine `auto`.
 
-On the world map, a device drops a single pin. A priority order is used to determine which of the geolocation services to use for the device's pin.
+On the world map, a device drops a single pin. A priority order determines which of the geolocation services to use for the device's pin.
 
 #### Geo type display priority
 
@@ -108,14 +113,13 @@ If no geolocation information is known about a device, the map does not display 
 
 ### Deploying for production on a Linux server
 
-Here is how we've deployed this in production.  We use Debian 9 as our distro of
-choice.
+Here is how we've deployed this in production. We use Debian 9 as our distro of choice.
 
-1. Setup your server
+1. Set up your server.
 
-   We use Amazon EC2 as our hosting platform.  If you want to use our exact setup:
+   We use Amazon EC2 as our hosting platform. If you want to use our exact setup:
 
-   1. Start a [Debian 9 Amazon EC2 instance](https://wiki.debian.org/Cloud/AmazonEC2Image/Stretch).  On us-east-1, we use ami-b4fd39c9.
+   1. Start a [Debian 9 Amazon EC2 instance](https://wiki.debian.org/Cloud/AmazonEC2Image/Stretch). On us-east-1, we use ami-b4fd39c9.
    2. Allow HTTP(port 80) and HTTPS(port 443)in your EC2 security group.
 
 1. Install required software packages:
@@ -142,7 +146,7 @@ choice.
    sudo a2enmod proxy_wstunnel
    ```
 
-   Note: You don't have to restart apache2 here.
+   Note: You don't have to restart Apache2 here.
 
 1. Create a user and password for this web application:
 
@@ -151,7 +155,7 @@ choice.
    sudo adduser wem www-data
    ```
 
-1. Become the wem user and clone the ref-wem-webapp project under the wem home directory:
+1. Become the wem user, and clone the ref-wem-webapp project under the wem home directory:
 
    ```
    sudo su wem
@@ -196,18 +200,19 @@ choice.
    source /usr/local/bin/virtualenvwrapper.sh
    ```
    
-    NOTE:
-   For different Linux distro's virtualenvwrapper.sh might install to a different path. If so you can find its real path by running:
+   NOTE:
+   For different Linux distros, `virtualenvwrapper.sh` might install to a different path. If so, you can find its real path by running:
+   
    ```
    /home/wem/ref-wem-webapp$ find / -name virtualenvwrapper.sh
    find: /usr/pybin/virtualenvwrapper.sh
    ```` 
+   
    You can then change your `~/.profile` source path to:
+   
    ```
    source /usr/pybin/virtualenvwrapper.sh
    ```
-
-
 
 1. Create a virtualenv as the wem user.
 
@@ -224,8 +229,8 @@ choice.
    (wem) $ pip install -r requirements.txt
    ```
 
-
 1. Initialize your secret key:
+
     ```
    (wem) $ export SECRET_KEY="$(python -c 'from django.core.management.utils import get_random_secret_key; print get_random_secret_key()')"
    (wem) $ echo "export SECRET_KEY='$SECRET_KEY'" >> $VIRTUAL_ENV/bin/postactivate
@@ -233,8 +238,8 @@ choice.
    (wem) $ echo "os.environ['SECRET_KEY']='$SECRET_KEY'" >> $(virtualenvwrapper_get_site_packages_dir)/wem_env.py
    ```
 
+1. [Get a Google Maps API key](https://developers.google.com/maps/documentation/javascript/get-api-key), and add it to the environment:
 
-1. [Get a Google Maps API key](https://developers.google.com/maps/documentation/javascript/get-api-key) and add it to the environment:
    ```
    (wem) $ export GOOGLE_MAPS_API_KEY='the key from the link above'
    (wem) $ echo "export GOOGLE_MAPS_API_KEY='$GOOGLE_MAPS_API_KEY'" >> $VIRTUAL_ENV/bin/postactivate
@@ -242,6 +247,7 @@ choice.
    ```
 
 1. Initialize the database:
+
    ```
    (wem) $ ./manage.py migrate
    (wem) $ chmod g+w dev.db
@@ -305,7 +311,7 @@ choice.
    sudo systemctl start daphne.service
    ```
 
-1. Restart apache:
+1. Restart Apache:
 
    ```
    sudo systemctl restart apache2.service
@@ -313,16 +319,12 @@ choice.
 
 1. Add SSL
 
-   You'll need HTTPS to be able for MBED Cloud to callback to your webhook
-   because MBED Cloud will only callback to an https URL(not http).
-   So you'll need to create a DNS entry in your DNS server and point
-   it to your EC2 instance.  Then use letsencrypt to generate your SSL
-   keys/certs and install them:
+   You need HTTPS for Mbed Cloud to callback to your webhook because Mbed Cloud only callbacks to an https URLb(not http). You need to create a DNS entry in your DNS server and point it to your EC2 instance. Then use letsencrypt to generate your SSL keys/certs and install them:
 
    * Add `ServerName example.com` to `/etc/apache2/sites-enabled/wem.conf`
    where example.com is the DNS entry pointing to your EC2 instance.
    * Also comment out `Include conf-available/wem.conf`
-   * Restart apache: `sudo systemctl restart apache2.service`
+   * Restart Apache: `sudo systemctl restart apache2.service`
 
    ```
    sudo apt-get install python-certbot-apache
@@ -331,12 +333,9 @@ choice.
 
    Use `/var/www/html` for the webroot when prompted.
 
-   Once certbot is done, uncomment out `Include conf-available/wem.conf` in
-   `/etc/apache2/sites-enabled/wem-le-ssl.conf` and restart apache.
-   (Leave the line commented out in `/etc/apache2/sites-enabled/wem.conf`)
+   Once certbot is done, uncomment `Include conf-available/wem.conf` in `/etc/apache2/sites-enabled/wem-le-ssl.conf`, and restart Apache. (Leave the line commented out in `/etc/apache2/sites-enabled/wem.conf`.)
 
-   Change your site domain in the Django admin: [https://example.com/admin/sites/site/2/change/](https://example.com/admin/sites/site/2/change/) from `example.com` to your hostname. Also set the scheme to HTTPS.  Click "Save".
-
+   Change your site domain in the Django admin: [https://example.com/admin/sites/site/2/change/](https://example.com/admin/sites/site/2/change/) from `example.com` to your host name. Also set the scheme to HTTPS. Click **Save**.
 
 #### Debugging server
 
@@ -377,11 +376,12 @@ choice.
 ### Adding sensors
 
 To add your own sensors to the web application, you need the following 3 items:
-* Resource name
-* Resource URI (Find in the OMA LwM2M registry)
-* Resource sensor range
 
-There are 2 files that need to be changed to add the sensor to the web application.
+* Resource name.
+* Resource URI (Find in the OMA LwM2M registry).
+* Resource sensor range.
+
+There are 2 files you need to change to add the sensor to the web application.
 
 The first file is `wem/settings/defaults.py`. Find the data struct at the very bottom of the file that looks like the following:
 
@@ -402,7 +402,7 @@ Add another item into that `MBED_CLOUD_PRESUBSCRIPTIONS` struct that follows the
 
 Where XXXX is the Object ID of your resource.
 
-The second file that needs to be modified is `livedevice/templates/livedevice/livedevice.html`. Find the data struct around line 39 that looks like the following:
+The second file you need to modify is `livedevice/templates/livedevice/livedevice.html`. Find the data struct around line 39 that looks like the following:
 
 ```
     var chartsConfig = {
@@ -450,6 +450,6 @@ Add another item into that `chartsConfig` struct that follows the following temp
 }
 ```
 
-Where XXXX is the Object ID of your resource, and YYYY is the Resource ID of your resource.
+Where XXXX is the Object ID of your resource and YYYY is the Resource ID of your resource.
 
-That is it! Your web application should now should additional sensor information.
+That is it! Your web application now shows additional sensor information.
