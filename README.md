@@ -328,10 +328,8 @@ Here is how we've deployed this in production. We use Debian 9 as our distro of 
 
    ```
    sudo apt-get install python-certbot-apache
-   sudo certbot --authenticator webroot --installer apache
+   sudo certbot --authenticator webroot --installer apache -w /var/www/html
    ```
-
-   Use `/var/www/html` for the webroot when prompted.
 
    Once certbot is done, uncomment `Include conf-available/wem.conf` in `/etc/apache2/sites-enabled/wem-le-ssl.conf`, and restart Apache. (Leave the line commented out in `/etc/apache2/sites-enabled/wem.conf`.)
 
