@@ -333,7 +333,7 @@ Here is how we've deployed this in production. We use Debian 9 as our distro of 
 
    Once certbot is done, uncomment `Include conf-available/wem.conf` in `/etc/apache2/sites-enabled/wem-le-ssl.conf`, and restart Apache. (Leave the line commented out in `/etc/apache2/sites-enabled/wem.conf`.)
 
-   Change your site domain in the Django admin: [https://example.com/admin/sites/site/2/change/](https://example.com/admin/sites/site/2/change/) from `example.com` to your host name. Also set the scheme to HTTPS. Click **Save**.
+1. Change your site domain in the Django admin: [https://example.com/admin/sites/site/2/change/](https://example.com/admin/sites/site/2/change/) from `example.com` to your host name. Also set the scheme to HTTPS. Click **Save**.
 
 #### Debugging server
 
