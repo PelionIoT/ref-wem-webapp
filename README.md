@@ -9,6 +9,7 @@ We are planning to upgrade to Python 3 in the future, but right now, only Python
 Install the required tools if you are using Linux:
 
 ```
+sudo apt-get update
 sudo apt-get install python python-pip python-dev libffi-dev libssl-dev virtualenvwrapper
 ```
 
