@@ -55,9 +55,13 @@ class MBEDCloudSession(requests.Session):
             return
         if not (resource_path and resource_path.startswith('/')):
             return
+        print("Requesting " + "/v2/endpoints/%s%s" % (endpoint_id, resource_path))
         r = self.get("/v2/endpoints/%s%s" % (endpoint_id, resource_path))
-        r.raise_for_status()
-        return r.json()
+        try:
+            return r.json()
+        except ValueError as e:
+            print("Warn: %s does not have %s" % (endpoint_id, resource_path))
+            return {}
 
     """https://cloud.mbed.com/docs/v1.2/service-api-references/connect-api.html#notifications"""
     def get_callback(self):

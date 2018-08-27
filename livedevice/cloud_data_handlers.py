@@ -19,7 +19,7 @@ import re
 import json
 
 from channels import Group, Channel
-
+from django.core.cache import cache
 from .models import WebHookAuth, Sensor, Board
 
 logger = logging.getLogger(__name__)
@@ -47,9 +47,34 @@ def handle_data(webhook_auth, data):
         elif key == 'reg-updates':
             pass
         elif key == 'async-responses':
-            pass
+            handle_async_responses(webhook_auth, value)
         else:
             raise ValueError("unhandled cloud data type: %s" % key)
+
+
+def handle_async_responses(webhook_auth, async_responses):
+    """
+    Handle the 'async-responses' section of the webhook/polled data.
+
+    Args:
+        async_responses: content under 'async-responses', a list of
+        asynchronous responses.
+    """
+    for item in async_responses:
+        val = cache.get(item.get('id'))
+        if val is None:
+            print('Cache miss for ' + item.get('id'))
+            continue
+        path = val['path']
+        value = decode_payload(path, item['payload'])
+        message = {
+            'type': 'update',
+            'update': {
+                'board': val['ep'],
+                'sensor': path,
+                'value': value}}
+        send = NOTIFICATION_SENDERS.get(path, send_group)
+        send({'webhook_auth_id': webhook_auth.id, 'message': message})
 
 
 def handle_notifications(webhook_auth, notifications):
