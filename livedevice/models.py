@@ -20,6 +20,7 @@ from uuid import uuid4
 import requests
 from django.db import models, transaction
 from django.contrib.sites.models import Site
+from django.core.cache import cache
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.utils.functional import cached_property
@@ -188,7 +189,24 @@ class MBEDCloudAccount(models.Model):
         webhook_api_key = self.webhookauth.api_key
         headers = {'Authorization': "Bearer %s" % webhook_api_key}
         session.set_callback(webhook_url, headers=headers)
+        self.request_initial_resource_values()
         self.set_presubscriptions()
+
+    def request_initial_resource_values(self):
+        '''Request values for resource paths to obtain initial values.'''
+        session = self.get_session()
+        endpoints = session.get_endpoints()
+        for e in endpoints:
+            endpoint_id = e['name']
+            for p in settings.RESOURCE_PATHS_FOR_INIT:
+                try:
+                    result = session.get_endpoint_resource(endpoint_id, p)
+                except Exception as e:
+                    logger.debug('Warn: Device %s does not have endpoint resource %s', endpoint_id, p)
+                if 'async-response-id' in result:
+                    logger.debug("Seting cache for %s ", result['async-response-id'])
+                    val = {'ep': endpoint_id, 'path': p}
+                    cache.set(result['async-response-id'], val, 300)
 
     def delete_webhook_callback(self):
         session = self.get_session()
@@ -212,9 +230,12 @@ class MBEDCloudAccount(models.Model):
         if self.is_long_polling:
             raise Exception("is already running")
         session = self.get_session()
-        session.delete_long_poll()
+        # If you delete a long poll, you must wait 2 minutes. But that is
+        # not very user-friendly. Long poll is deprecated anyway.
+        #session.delete_long_poll()
         self.delete_webhook_callback()
         self.set_presubscriptions()
+        self.request_initial_resource_values()
         self.is_long_polling = True
         self.should_stop_polling = False
         Channel('mbedcloudaccount.poll').send({'mbedcloudaccount_id': self.id})
