@@ -43,6 +43,22 @@ class MBEDCloudSession(requests.Session):
         url = self.base_url + path
         return super(MBEDCloudSession, self).request(method, url, **kwargs)
 
+    def get_endpoints(self):
+        '''List all registered endpoints'''
+        r = self.get("/v2/endpoints")
+        r.raise_for_status()
+        return r.json()
+
+    def get_endpoint_resource(self, endpoint_id, resource_path):
+        '''Read from a resource'''
+        if not endpoint_id:
+            return
+        if not (resource_path and resource_path.startswith('/')):
+            return
+        r = self.get("/v2/endpoints/%s%s" % (endpoint_id, resource_path))
+        r.raise_for_status()
+        return r.json()
+
     """https://cloud.mbed.com/docs/v1.2/service-api-references/connect-api.html#notifications"""
     def get_callback(self):
         r = self.get("/v2/notification/callback")
