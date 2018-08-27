@@ -244,3 +244,16 @@ MBED_CLOUD_PRESUBSCRIPTIONS = [
         {"resource-path": ["/26241/0/*"]},
         {"resource-path": ["/26242/0/*"]}
 ]
+
+# These paths update rarely, if ever, so it is recommended to
+# query for their values as soon as an mbed cloud account is initialized.
+RESOURCE_PATHS_FOR_INIT = [
+    # User Latitude, Longitude, Uncertainty
+    '/3336/0/5514',
+    '/3336/0/5515',
+    '/3336/0/5516',
+    # Auto Latitude, Longitude, Uncertainty
+    '/3336/1/5514',
+    '/3336/1/5515',
+    '/3336/1/5516'
+]
