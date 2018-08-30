@@ -248,6 +248,12 @@ MBED_CLOUD_PRESUBSCRIPTIONS = [
 # These paths update rarely, if ever, so it is recommended to
 # query for their values as soon as an mbed cloud account is initialized.
 RESOURCE_PATHS_FOR_INIT = [
+    # Light
+    '/3301/0/5700',
+    # Humidity
+    '/3304/0/5700',
+    # Temperature
+    '/3303/0/5700',
     # User Latitude, Longitude, Uncertainty
     '/3336/0/5514',
     '/3336/0/5515',
