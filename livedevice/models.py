@@ -196,6 +196,7 @@ class MBEDCloudAccount(models.Model):
         '''Request values for resource paths to obtain initial values.'''
         session = self.get_session()
         endpoints = session.get_endpoints()
+        logger.debug('Found %s devices: %s', len(data), ", ".join([x.get('name') for x in data]))
         for e in endpoints:
             endpoint_id = e['name']
             for p in settings.RESOURCE_PATHS_FOR_INIT:
