@@ -248,6 +248,8 @@ MBED_CLOUD_PRESUBSCRIPTIONS = [
 # These paths update rarely, if ever, so it is recommended to
 # query for their values as soon as an mbed cloud account is initialized.
 RESOURCE_PATHS_FOR_INIT = [
+    # Label
+    '/26241/0/1',
     # Light
     '/3301/0/5700',
     # Humidity
