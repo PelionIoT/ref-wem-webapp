@@ -203,6 +203,7 @@ class MBEDCloudAccount(models.Model):
                     result = session.get_endpoint_resource(endpoint_id, p)
                 except Exception as e:
                     logger.debug('Warn: Device %s does not have endpoint resource %s', endpoint_id, p)
+                    continue
                 if 'async-response-id' in result:
                     logger.debug("Seting cache for %s ", result['async-response-id'])
                     val = {'ep': endpoint_id, 'path': p}
