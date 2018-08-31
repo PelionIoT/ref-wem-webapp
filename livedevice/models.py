@@ -14,7 +14,9 @@ limitations under the License.
 
 
 from __future__ import unicode_literals
+import json
 import logging
+import re
 from uuid import uuid4
 
 import requests
@@ -24,11 +26,10 @@ from django.core.cache import cache
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.utils.functional import cached_property
-from channels import Channel
+from channels import Group, Channel
 
 from .mbedcloud import MBEDCloudSession
 from .fields import CacheField
-
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -196,7 +197,7 @@ class MBEDCloudAccount(models.Model):
         '''Request values for resource paths to obtain initial values.'''
         session = self.get_session()
         endpoints = session.get_endpoints()
-        logger.debug('Found %s devices: %s', len(data), ", ".join([x.get('name') for x in data]))
+        logger.debug('Found %s devices: %s', len(endpoints), ", ".join([x.get('name') for x in endpoints]))
         for e in endpoints:
             endpoint_id = e['name']
             for p in settings.RESOURCE_PATHS_FOR_INIT:
@@ -209,6 +210,9 @@ class MBEDCloudAccount(models.Model):
                     logger.debug("Seting cache for %s ", result['async-response-id'])
                     val = {'ep': endpoint_id, 'path': p}
                     cache.set(result['async-response-id'], val, 300)
+                else:
+                    logger.debug("Received raw value '%s'", result)
+                    send_update_message(self.webhookauth.id, endpoint_id, p, result)
 
     def delete_webhook_callback(self):
         session = self.get_session()
@@ -275,3 +279,24 @@ class SiteScheme(models.Model):
     )
     site = models.OneToOneField(Site)
     scheme = models.CharField(max_length=10, choices=SCHEMES, default='https')
+
+def send_update_message(webhook_auth_id, endpoint_id, path, value_txt):
+    logger.debug("Sending update message.")
+    try:
+        value = float(re.search(r"([+-]?\d+(?:\.\d+)?)", value_txt).group(1))
+    except Exception as e:
+        value = value_txt
+    message = {
+            'type': 'update',
+            'update': {
+                'board': endpoint_id,
+                'sensor': path,
+                'value': value
+                }
+            }
+    logger.debug("Sending update message '%s'.", message)
+    Sensor.objects.set(WebHookAuth.objects.get(id=webhook_auth_id),
+                        endpoint_id,
+                        path,
+                        value)
+    Group("livedevice").send({'text': json.dumps(message)})

@@ -57,7 +57,14 @@ class MBEDCloudSession(requests.Session):
             return
         r = self.get("/v2/endpoints/%s%s" % (endpoint_id, resource_path))
         r.raise_for_status()
-        return r.json()
+        try:
+            # sometimes responses are a JSON string, a promise
+            # for the value to come later, e.g.:
+            # {"async-response-id":"a5a92b00-6d3a-4d92-80e4-713a3f7914c5"}
+            return r.json()
+        except ValueError:
+            # sometimes responses are the current value, e.g. the string '63%'
+            return r.text
 
     """https://cloud.mbed.com/docs/v1.2/service-api-references/connect-api.html#notifications"""
     def get_callback(self):
