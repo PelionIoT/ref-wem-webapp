@@ -250,6 +250,8 @@ MBED_CLOUD_PRESUBSCRIPTIONS = [
 RESOURCE_PATHS_FOR_INIT = [
     # Label
     '/26241/0/1',
+    # MAC addresses of WiFi access points
+    '/26242/0/1',
     # Light
     '/3301/0/5700',
     # Humidity
