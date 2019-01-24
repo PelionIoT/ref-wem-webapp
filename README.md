@@ -6,7 +6,9 @@ We are planning to upgrade to Python 3 in the future, but right now, only Python
 
 ### Getting started
 
-Install the required tools if you are using Linux:
+These instructions are for Debian/Ubuntu.
+
+Install the required tools:
 
 ```
 sudo apt-get update
