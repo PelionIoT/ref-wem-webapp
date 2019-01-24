@@ -69,15 +69,23 @@ Install the test simulator dependencies:
 
 `pip install -r requirements_test.txt`
 
-To test with the simulator:
+To test with the simulator is just 2 commands:
 
-1. `./manage.py loaddata testauth`.
-1. `python simulate_fake_device.py`.
+```
+./manage.py loaddata testauth
+python simulate_fake_device.py
+```
 
 To test with a real device:
 
-1. Use serveo.net to forward your dev server port onto the internet: `ssh -R 80:localhost:8000 serveo.net`.
-1. Add a superuser to Django: `./manage.py createsuperuser`.
+1. Use serveo.net to forward your dev server port onto the internet:
+    ```
+    ssh -R 80:localhost:8000 serveo.net
+    ```
+1. Add a superuser to Django:
+    ```
+    ./manage.py createsuperuser
+    ```
 1. Change your site domain in the [Django admin](http://localhost:8000/admin/sites/site/1/) from `localhost:8000` to mysubdomain.serveo.net where mysubdomain is whatever the serveo SSH command output was. Also set the scheme to HTTPS.
 1. Make sure your site is available at the serveo URL by loading it in a browser.
 1. Then add your Mbed Cloud account to the [Django admin](http://localhost:8000/admin/livedevice/mbedcloudaccount/):
@@ -86,7 +94,11 @@ To test with a real device:
     * Display name: your choice of name.
     * Click `Save and continue editing`.
     * Click `Set webhook callback`.
-1. `Webhook callback set` says ` {u'url': u'https://mysubdomain.serveo.net/live-device/mbed-cloud-webhook/', u'headers': {u'Authorization': u'Bearer mywebhookauthapikey'}}`. If you see a 400 error, make sure your Mbed cloud API key is correct.
+1. After clicking `Webhook callback set` it should display
+    ```
+    {u'url': u'https://mysubdomain.serveo.net/live-device/mbed-cloud-webhook/', u'headers': {u'Authorization': u'Bearer mywebhookauthapikey'}}
+    ```
+    If you see a 400 error, make sure your Mbed cloud API key is correct.
 1. Refresh the page.
 1. You can now see callbacks at https://mysubdomain.serveo.net/live-device/mbed-cloud-webhook/.
 
