@@ -13,7 +13,7 @@
   "dependencies": {
     "bootstrap": "^3.3.6",
     "font-awesome": "^4.5.0",
-    "jquery": "^2.1.4"
+    "jquery": "^3.3.1"
   },
   "babel": {
     "presets": [
@@ -82,7 +82,7 @@
     "browserify-hmr": "^0.3.1",
     "del": "^2.2.0",
     "fs": "0.0.2",
-    "gulp": "gulpjs/gulp#4.0",
+    "gulp": "^4.0.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-cleanup": "^1.0.0",
     "gulp-compile-handlebars": "^0.6.1",
