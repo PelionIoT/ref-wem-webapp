@@ -19,11 +19,14 @@ Create a virtualenv and use it:
 
 ```
 mkvirtualenv ref-wem-webapp
+workon ref-wem-webapp
 ```
 
-Install the dependencies:
+Clone this project and install the dependencies:
 
 ```
+git clone git@github.com:ARMmbed/ref-wem-webapp.git
+cd ref-wem-webapp/
 pip install -r requirements.txt
 ```
 
@@ -41,9 +44,11 @@ export GOOGLE_MAPS_API_KEY='the key from the link above'
 echo "export GOOGLE_MAPS_API_KEY='$GOOGLE_MAPS_API_KEY'" >> $VIRTUAL_ENV/bin/postactivate
 ```
 
-Initialize the database:
+Open a new terminal, start the viertal environment, and initialize the database:
 
 ```
+workon ref-wem-webapp
+cd ref-wem-webapp/
 ./manage.py migrate
 ./manage.py loaddata sites
 ```
