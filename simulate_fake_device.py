@@ -34,7 +34,7 @@ from twisted.web.http_headers import Headers
 from twisted.web.client import FileBodyProducer
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.WARN)
+logger.setLevel(logging.INFO)
 
 WEBHOOK_URL = "http://localhost:8000/live-device/mbed-cloud-webhook/"
 
@@ -335,6 +335,7 @@ class Board(object):
     def __init__(self, id, stopAfter=None, label="fish", geo=None):
         self.id = id
         self.stopAfter = stopAfter
+        self.label = label
         self.sensors = [
             TempSensor(board=self),
             LightSensor(board=self),
@@ -437,12 +438,13 @@ def main(argv=None):
     boards_will_finish = []
 
     def start_sending(board):
-        logger.debug("board start_sending: %r", board.id)
+        logger.info("board start_sending: %s %s", board.label, board.id)
         will_start, will_finish = board.start_sending()
         if will_finish:
             boards_will_finish.append(will_finish)
         return will_start
 
+    logger.info("Data will be sent to %s", WEBHOOK_URL)
     one_at_a_time = defer.DeferredSemaphore(1)
     for board in BOARDS:
         one_at_a_time.run(start_sending, board)
