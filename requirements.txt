@@ -34,10 +34,6 @@ msgpack-python==0.4.8
 pathlib2==2.3.0
 pexpect==4.2.1
 pickleshare==0.7.4
-pinax-cli==1.0.0
-pinax-eventlog==1.1.2
-pinax-theme-bootstrap==7.10.1
-pinax-webanalytics==2.0.4
 posix-ipc==1.0.0
 prompt-toolkit==1.0.15
 ptyprocess==0.5.2
