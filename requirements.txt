@@ -3,7 +3,7 @@ asgi-ipc==1.4.2
 asgiref==1.1.2
 asn1crypto==0.23.0
 attrs==17.2.0
-autobahn==17.6.2
+autobahn==20.12.3
 Automat==0.6.0
 backports.shutil-get-terminal-size==1.0.0
 certifi==2017.7.27.1
